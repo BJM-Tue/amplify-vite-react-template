@@ -1,7 +1,7 @@
-import { Authenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
+import { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 
 const client = generateClient<Schema>();
@@ -16,22 +16,44 @@ function App() {
   }, []);
 
   function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+    const content = window.prompt("Todo content");
+    if (!content) return;
+
+    client.models.Todo.create({
+      content,
+      isDone: false,
+    });
   }
- 
+
+  function updateTodo(id: string, isDone: boolean) {
+    client.models.Todo.update({ id, isDone });
+  }
+
   function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    client.models.Todo.delete({ id });
   }
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <main>
-          <h1>{user?.signInDetails?.loginId ?? 'My'} todos</h1>
-          <button onClick={createTodo}>+ new</button>
+          <h1>{user?.signInDetails?.loginId ?? "My"} todos</h1>
+          <button onClick={createTodo}>+</button>
           <ul>
             {todos.map((todo) => (
-              <li key={todo.id} onClick={() => deleteTodo(todo.id)}>{todo.content}</li>
+              <div>
+                <li
+                  key={todo.id}
+                  onClick={() => updateTodo(todo.id, !todo.isDone)}
+                  style={{
+                    backgroundColor: todo.isDone ? "green" : "white",
+                    color: todo.isDone ? "white" : "inherit",
+                  }}
+                >
+                  {todo.content}
+                </li>
+                <span onClick={() => deleteTodo(todo.id)}>-</span>
+              </div>
             ))}
           </ul>
           <div>

@@ -27,12 +27,9 @@ button {
   transition: border-color 0.25s;
   color: white;
 }
+
 button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border-color: #d0d1dd;
 }
 
 ul {
@@ -45,18 +42,35 @@ ul {
   margin: 8px 0;
   border: 1px solid black;
   gap: 1px;
-  background-color: black;
   border-radius: 8px;
   overflow: auto;
 }
 
-li {
-  background-color: white;
-  padding: 8px;
+ul div {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-li:hover {
-  background: #dadbf9;
+ul li {
+  flex: 1;
+  padding: 8px;
+  background-color: white;
+}
+
+ul li:hover {
+  background: #9a9b9c;
+}
+
+ul span {
+  width: 50px;
+  text-align: center;
+}
+
+ul span:hover {
+  color: red;
+  font-weight: bold;
 }
 
 a {
